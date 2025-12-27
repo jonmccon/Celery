@@ -362,16 +362,14 @@
         
         // Show temporary feedback
         function showFeedback(button, message) {
-            const originalText = button.innerHTML;
-            button.innerHTML = message;
+            const originalText = button.textContent.trim();
+            const originalHTML = button.innerHTML;
+            button.textContent = message;
             
             setTimeout(() => {
-                button.innerHTML = originalText;
+                button.innerHTML = originalHTML;
             }, 1000);
         }
-        
-        // Set initial active state
-        animationTypeBtns[0].classList.add('animation-btn-active');
     </script>
 </body>
 </html>
