@@ -325,7 +325,8 @@
             // Remove animation
             animatedElement.style.animation = 'none';
             
-            // Trigger reflow
+            // Trigger reflow to restart animation from the beginning
+            // This forces the browser to recalculate styles before re-applying animation
             void animatedElement.offsetWidth;
             
             // Re-add animation
