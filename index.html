@@ -294,8 +294,21 @@
                     </button>
                 </div>
             </div>
+            
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button id="submitBtn" class="btn btn-submit">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Submit
+                </button>
+            </div>
         </div>
     </div>
+    
+    <!-- Celebration container -->
+    <div id="celebrationContainer" class="celebration-container"></div>
     
     <script>
         const animatedElement = document.getElementById('animatedElement');
@@ -303,8 +316,11 @@
         const pauseBtn = document.getElementById('pauseBtn');
         const restartBtn = document.getElementById('restartBtn');
         const animationTypeBtns = document.querySelectorAll('.animation-type-btn');
+        const submitBtn = document.getElementById('submitBtn');
+        const celebrationContainer = document.getElementById('celebrationContainer');
         
         let currentAnimation = 'bounce';
+        let isSubmitted = false;
         
         // Play button
         playBtn.addEventListener('click', () => {
@@ -369,6 +385,88 @@
             setTimeout(() => {
                 button.innerHTML = originalHTML;
             }, 1000);
+        }
+        
+        // Submit button functionality
+        submitBtn.addEventListener('click', () => {
+            if (!isSubmitted) {
+                isSubmitted = true;
+                
+                // Change button to success state
+                submitBtn.classList.remove('btn-submit');
+                submitBtn.classList.add('btn-success');
+                submitBtn.innerHTML = `
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Success!
+                `;
+                
+                // Trigger celebration
+                createCelebration();
+            }
+        });
+        
+        // Create celebration effect
+        function createCelebration() {
+            const emojis = ['⚽', '⭐'];
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f7dc6f', '#bb8fce', '#85c1e2'];
+            const itemCount = 30;
+            
+            for (let i = 0; i < itemCount; i++) {
+                // Create emoji elements
+                setTimeout(() => {
+                    // Randomly choose emoji
+                    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                    const item = document.createElement('div');
+                    item.className = 'celebration-item';
+                    item.textContent = emoji;
+                    
+                    // Random starting position
+                    const startPos = Math.random() * 100;
+                    item.style.left = `${startPos}%`;
+                    
+                    // Random drift direction
+                    const drift = (Math.random() - 0.5) * 400;
+                    item.style.setProperty('--drift', `${drift}px`);
+                    
+                    celebrationContainer.appendChild(item);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        item.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+            
+            // Create ribbon streamers
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const streamer = document.createElement('div');
+                    streamer.className = 'streamer';
+                    
+                    // Random color
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    streamer.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
+                    
+                    // Random starting position
+                    const startPos = Math.random() * 100;
+                    streamer.style.left = `${startPos}%`;
+                    
+                    // Random drift and rotation
+                    const drift = (Math.random() - 0.5) * 500;
+                    const rotation = Math.random() * 1080 - 540;
+                    streamer.style.setProperty('--drift', `${drift}px`);
+                    streamer.style.setProperty('--rotation', `${rotation}deg`);
+                    
+                    celebrationContainer.appendChild(streamer);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        streamer.remove();
+                    }, 3000);
+                }, i * 80);
+            }
         }
     </script>
 </body>
