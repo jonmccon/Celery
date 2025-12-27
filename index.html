@@ -194,7 +194,7 @@
                 transform: translateY(0) scale(1);
             }
             50% {
-                transform: translateY(-100px) scale(1.1);
+                transform: translateY(-5rem) scale(1.1);
             }
         }
         
@@ -362,7 +362,6 @@
         
         // Show temporary feedback
         function showFeedback(button, message) {
-            const originalText = button.textContent.trim();
             const originalHTML = button.innerHTML;
             button.textContent = message;
             
