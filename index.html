@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celery - Animation Controls</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom right, #fae8ff, #fce7f3);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        
+        .animation-display {
+            background: linear-gradient(to right, #eff6ff, #faf5ff);
+            border-radius: 0.75rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .animated-element {
+            width: 6rem;
+            height: 6rem;
+            background: linear-gradient(to bottom right, #a855f7, #ec4899);
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.25rem;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .button-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .btn {
+            font-weight: bold;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.15s;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-green {
+            background: #22c55e;
+        }
+        
+        .btn-green:hover {
+            background: #16a34a;
+        }
+        
+        .btn-yellow {
+            background: #eab308;
+        }
+        
+        .btn-yellow:hover {
+            background: #ca8a04;
+        }
+        
+        .btn-blue {
+            background: #3b82f6;
+        }
+        
+        .btn-blue:hover {
+            background: #2563eb;
+        }
+        
+        .divider {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1.5rem;
+        }
+        
+        .animation-btn {
+            background: #f3e8ff;
+            color: #7c3aed;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #c4b5fd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .animation-btn:hover {
+            background: #e9d5ff;
+        }
+        
+        .animation-btn-active {
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.3);
+        }
+        
+        .animation-btn:nth-child(2) {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #93c5fd;
+        }
+        
+        .animation-btn:nth-child(2):hover {
+            background: #bfdbfe;
+        }
+        
+        .animation-btn:nth-child(3) {
+            background: #fce7f3;
+            color: #be185d;
+            border-color: #f9a8d4;
+        }
+        
+        .animation-btn:nth-child(3):hover {
+            background: #fbcfe8;
+        }
+        
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        @keyframes bounce-custom {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-100px) scale(1.1);
+            }
+        }
+        
+        @keyframes spin-custom {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse-custom {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+        
+        .animate-bounce-custom {
+            animation: bounce-custom 2s infinite;
+        }
+        
+        .animate-spin-custom {
+            animation: spin-custom 2s linear infinite;
+        }
+        
+        .animate-pulse-custom {
+            animation: pulse-custom 2s ease-in-out infinite;
+        }
+        
+        .animation-paused {
+            animation-play-state: paused;
+        }
+        
+        .animation-running {
+            animation-play-state: running;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Header -->
+            <div class="text-center">
+                <h1>🎬 Celery Animation Studio</h1>
+                <p class="subtitle">Control animations with the buttons below</p>
+            </div>
+            
+            <!-- Animated Element Display Area -->
+            <div class="animation-display">
+                <div id="animatedElement" class="animated-element animate-bounce-custom animation-running">
+                    🌟
+                </div>
+            </div>
+            
+            <!-- Animation Control Buttons -->
+            <div class="button-grid">
+                <button id="playBtn" class="btn btn-green">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                    </svg>
+                    Play
+                </button>
+                
+                <button id="pauseBtn" class="btn btn-yellow">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5 4a2 2 0 012-2h2a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V4zm8 0a2 2 0 012-2h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2V4z"/>
+                    </svg>
+                    Pause
+                </button>
+                
+                <button id="restartBtn" class="btn btn-blue">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                    Restart
+                </button>
+            </div>
+            
+            <!-- Animation Style Selector -->
+            <div class="divider">
+                <h2 class="text-center">Choose Animation Style</h2>
+                <div class="button-grid">
+                    <button class="animation-btn animation-type-btn animation-btn-active" data-animation="bounce">
+                        Bounce
+                    </button>
+                    <button class="animation-btn animation-type-btn" data-animation="spin">
+                        Spin
+                    </button>
+                    <button class="animation-btn animation-type-btn" data-animation="pulse">
+                        Pulse
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const animatedElement = document.getElementById('animatedElement');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const animationTypeBtns = document.querySelectorAll('.animation-type-btn');
+        
+        let currentAnimation = 'bounce';
+        
+        // Play button
+        playBtn.addEventListener('click', () => {
+            animatedElement.classList.remove('animation-paused');
+            animatedElement.classList.add('animation-running');
+            showFeedback(playBtn, '▶️ Playing');
+        });
+        
+        // Pause button
+        pauseBtn.addEventListener('click', () => {
+            animatedElement.classList.remove('animation-running');
+            animatedElement.classList.add('animation-paused');
+            showFeedback(pauseBtn, '⏸️ Paused');
+        });
+        
+        // Restart button
+        restartBtn.addEventListener('click', () => {
+            // Remove animation
+            animatedElement.style.animation = 'none';
+            
+            // Trigger reflow
+            void animatedElement.offsetWidth;
+            
+            // Re-add animation
+            animatedElement.style.animation = '';
+            animatedElement.classList.remove('animation-paused');
+            animatedElement.classList.add('animation-running');
+            
+            showFeedback(restartBtn, '🔄 Restarted');
+        });
+        
+        // Animation type buttons
+        animationTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const animationType = btn.dataset.animation;
+                currentAnimation = animationType;
+                
+                // Remove all animation classes
+                animatedElement.classList.remove('animate-bounce-custom', 'animate-spin-custom', 'animate-pulse-custom');
+                
+                // Add selected animation class
+                animatedElement.classList.add(`animate-${animationType}-custom`);
+                animatedElement.classList.remove('animation-paused');
+                animatedElement.classList.add('animation-running');
+                
+                // Update button styles
+                animationTypeBtns.forEach(b => {
+                    b.classList.remove('animation-btn-active');
+                });
+                btn.classList.add('animation-btn-active');
+                
+                showFeedback(btn, `✨ ${animationType.charAt(0).toUpperCase() + animationType.slice(1)} selected`);
+            });
+        });
+        
+        // Show temporary feedback
+        function showFeedback(button, message) {
+            const originalText = button.innerHTML;
+            button.innerHTML = message;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 1000);
+        }
+        
+        // Set initial active state
+        animationTypeBtns[0].classList.add('animation-btn-active');
+    </script>
+</body>
+</html>
